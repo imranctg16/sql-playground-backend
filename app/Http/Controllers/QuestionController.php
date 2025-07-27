@@ -102,7 +102,9 @@ class QuestionController extends Controller
         $request->validate([
             'question_id' => 'required|integer|exists:questions,id',
             'user_sql' => 'required|string',
-            'query_type' => 'required|in:sql,laravel'
+            'query_type' => 'required|in:sql,laravel',
+            'hints_used' => 'nullable|integer|min:0',
+            'viewed_solution' => 'nullable|boolean'
         ]);
 
         $questionId = $request->question_id;
@@ -138,6 +140,19 @@ class QuestionController extends Controller
             // Compare results
             $isCorrect = $this->compareResults($expectedResult, $userResult);
 
+            // Calculate final points after penalties
+            $hintsUsed = $request->input('hints_used', 0);
+            $viewedSolution = $request->input('viewed_solution', false);
+            
+            $basePoints = $question->points;
+            $hintPenalty = $hintsUsed * ($question->hint_penalty ?? 2);
+            $solutionPenalty = $viewedSolution ? $basePoints : 0; // No points if solution was viewed
+            
+            $finalPoints = max(0, $basePoints - $hintPenalty);
+            if ($viewedSolution) {
+                $finalPoints = 0; // No points if solution was viewed
+            }
+
             // Save progress if user is authenticated and answer is correct
             $user = auth('sanctum')->user();
             $pointsEarned = 0;
@@ -151,22 +166,22 @@ class QuestionController extends Controller
                     ->first();
                 
                 if (!$existingProgress) {
-                    // Save new progress
+                    // Save new progress with calculated points
                     DB::table('user_progress')->insert([
                         'user_id' => $user->id,
                         'question_id' => $questionId,
-                        'points_earned' => $question->points,
+                        'points_earned' => $finalPoints,
                         'completed_at' => now()
                     ]);
-                    $pointsEarned = $question->points;
+                    $pointsEarned = $finalPoints;
                     $isNewCompletion = true;
                 } else {
-                    $pointsEarned = $question->points; // Show question's point value
+                    $pointsEarned = $finalPoints; // Show calculated point value
                     $isNewCompletion = false;
                 }
             } else if ($isCorrect) {
                 // Not authenticated but answer is correct
-                $pointsEarned = $question->points;
+                $pointsEarned = $finalPoints;
             }
 
             // Update streak activity for any query attempt
@@ -177,6 +192,18 @@ class QuestionController extends Controller
                 $this->recordActivityCompletion($pointsEarned);
             }
 
+            $message = $isCorrect ? 
+                ($isNewCompletion ? 'Correct! Well done!' : 'Correct! You\'ve already completed this question.') 
+                : 'Not quite right. Check your query and try again.';
+            
+            // Add penalty information to message if applicable
+            if ($isCorrect && $hintsUsed > 0) {
+                $message .= " (Points reduced by {$hintPenalty} for using hints)";
+            }
+            if ($isCorrect && $viewedSolution) {
+                $message .= " (No points awarded - solution was viewed)";
+            }
+
             return response()->json([
                 'success' => true,
                 'data' => [
@@ -185,9 +212,10 @@ class QuestionController extends Controller
                     'user_result' => $userResult,
                     'points_earned' => $pointsEarned,
                     'is_new_completion' => $isNewCompletion,
-                    'message' => $isCorrect ? 
-                        ($isNewCompletion ? 'Correct! Well done!' : 'Correct! You\'ve already completed this question.') 
-                        : 'Not quite right. Check your query and try again.'
+                    'base_points' => $basePoints,
+                    'hint_penalty' => $hintPenalty,
+                    'viewed_solution' => $viewedSolution,
+                    'message' => $message
                 ]
             ]);
 
