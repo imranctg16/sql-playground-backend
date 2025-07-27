@@ -9,89 +9,63 @@ class SqlPlaygroundSeeder extends Seeder
 {
     public function run()
     {
-        // Insert categories
+        // Insert categories - matching 01-schema.sql exactly
         DB::table('categories')->insert([
-            ['id' => 1, 'name' => 'Electronics', 'description' => 'Electronic devices and accessories'],
-            ['id' => 2, 'name' => 'Smartphones', 'description' => 'Mobile phones and accessories', 'parent_id' => 1],
-            ['id' => 3, 'name' => 'Laptops', 'description' => 'Portable computers', 'parent_id' => 1],
-            ['id' => 4, 'name' => 'Clothing', 'description' => 'Apparel and fashion items'],
-            ['id' => 5, 'name' => 'Men\'s Clothing', 'description' => 'Clothing for men', 'parent_id' => 4],
-            ['id' => 6, 'name' => 'Women\'s Clothing', 'description' => 'Clothing for women', 'parent_id' => 4],
-            ['id' => 7, 'name' => 'Books', 'description' => 'Books and educational materials'],
-            ['id' => 8, 'name' => 'Home & Garden', 'description' => 'Home improvement and garden supplies'],
+            ['id' => 1, 'name' => 'Electronics', 'description' => 'Electronic devices and accessories', 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'name' => 'Computers', 'description' => 'Desktop and laptop computers', 'parent_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 3, 'name' => 'Smartphones', 'description' => 'Mobile phones and accessories', 'parent_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 4, 'name' => 'Clothing', 'description' => 'Apparel for all ages', 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 5, 'name' => 'Men\'s Clothing', 'description' => 'Clothing for men', 'parent_id' => 4, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 6, 'name' => 'Women\'s Clothing', 'description' => 'Clothing for women', 'parent_id' => 4, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 7, 'name' => 'Books', 'description' => 'Physical and digital books', 'parent_id' => null, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 8, 'name' => 'Programming Books', 'description' => 'Books about software development', 'parent_id' => 7, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 9, 'name' => 'Fiction', 'description' => 'Fiction novels and stories', 'parent_id' => 7, 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        // Insert products
+        // Insert products - matching 01-schema.sql exactly
         DB::table('products')->insert([
-            ['id' => 1, 'name' => 'iPhone 14 Pro', 'description' => 'Latest Apple smartphone', 'price' => 999.99, 'stock_quantity' => 50, 'category_id' => 2, 'brand' => 'Apple'],
-            ['id' => 2, 'name' => 'Samsung Galaxy S23', 'description' => 'Android smartphone', 'price' => 899.99, 'stock_quantity' => 75, 'category_id' => 2, 'brand' => 'Samsung'],
-            ['id' => 3, 'name' => 'MacBook Pro', 'description' => '16-inch laptop', 'price' => 2499.99, 'stock_quantity' => 25, 'category_id' => 3, 'brand' => 'Apple'],
-            ['id' => 4, 'name' => 'Dell XPS 13', 'description' => 'Ultra-portable laptop', 'price' => 1299.99, 'stock_quantity' => 30, 'category_id' => 3, 'brand' => 'Dell'],
-            ['id' => 5, 'name' => 'Men\'s T-Shirt', 'description' => 'Cotton t-shirt', 'price' => 29.99, 'stock_quantity' => 100, 'category_id' => 5, 'brand' => 'Nike'],
-            ['id' => 6, 'name' => 'Women\'s Dress', 'description' => 'Summer dress', 'price' => 79.99, 'stock_quantity' => 60, 'category_id' => 6, 'brand' => 'Zara'],
-            ['id' => 7, 'name' => 'Programming Book', 'description' => 'Learn to code', 'price' => 49.99, 'stock_quantity' => 40, 'category_id' => 7, 'brand' => 'O\'Reilly'],
-            ['id' => 8, 'name' => 'Garden Hose', 'description' => '50ft garden hose', 'price' => 39.99, 'stock_quantity' => 20, 'category_id' => 8, 'brand' => 'Home Depot'],
+            ['id' => 1, 'name' => 'MacBook Pro 16"', 'description' => 'High-performance laptop for professionals', 'price' => 2499.99, 'stock_quantity' => 15, 'category_id' => 2, 'brand' => 'Apple', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'name' => 'Dell XPS 13', 'description' => 'Ultrabook with excellent display', 'price' => 1299.99, 'stock_quantity' => 25, 'category_id' => 2, 'brand' => 'Dell', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 3, 'name' => 'iPhone 15 Pro', 'description' => 'Latest flagship smartphone', 'price' => 999.99, 'stock_quantity' => 50, 'category_id' => 3, 'brand' => 'Apple', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 4, 'name' => 'Samsung Galaxy S24', 'description' => 'Android flagship phone', 'price' => 899.99, 'stock_quantity' => 40, 'category_id' => 3, 'brand' => 'Samsung', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 5, 'name' => 'Men\'s Casual Shirt', 'description' => 'Comfortable cotton shirt', 'price' => 29.99, 'stock_quantity' => 100, 'category_id' => 5, 'brand' => 'Uniqlo', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 6, 'name' => 'Women\'s Summer Dress', 'description' => 'Light fabric perfect for summer', 'price' => 59.99, 'stock_quantity' => 75, 'category_id' => 6, 'brand' => 'Zara', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 7, 'name' => 'Clean Code Book', 'description' => 'Essential reading for developers', 'price' => 39.99, 'stock_quantity' => 200, 'category_id' => 8, 'brand' => 'Prentice Hall', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 8, 'name' => 'The Great Gatsby', 'description' => 'Classic American novel', 'price' => 12.99, 'stock_quantity' => 150, 'category_id' => 9, 'brand' => 'Scribner', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 9, 'name' => 'Gaming Mouse', 'description' => 'High-precision gaming mouse', 'price' => 79.99, 'stock_quantity' => 80, 'category_id' => 1, 'brand' => 'Logitech', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 10, 'name' => 'Wireless Headphones', 'description' => 'Noise-cancelling headphones', 'price' => 299.99, 'stock_quantity' => 60, 'category_id' => 1, 'brand' => 'Sony', 'is_active' => true, 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        // Insert orders
+        // Insert orders - matching 01-schema.sql exactly
         DB::table('orders')->insert([
-            ['id' => 1, 'customer_name' => 'John Doe', 'customer_email' => 'john@example.com', 'order_date' => '2025-01-15', 'status' => 'delivered', 'total_amount' => 1029.98],
-            ['id' => 2, 'customer_name' => 'Jane Smith', 'customer_email' => 'jane@example.com', 'order_date' => '2025-01-16', 'status' => 'shipped', 'total_amount' => 2499.99],
-            ['id' => 3, 'customer_name' => 'Bob Johnson', 'customer_email' => 'bob@example.com', 'order_date' => '2025-01-17', 'status' => 'processing', 'total_amount' => 109.98],
-            ['id' => 4, 'customer_name' => 'Alice Brown', 'customer_email' => 'alice@example.com', 'order_date' => '2025-01-18', 'status' => 'pending', 'total_amount' => 899.99],
-            ['id' => 5, 'customer_name' => 'Charlie Wilson', 'customer_email' => 'charlie@example.com', 'order_date' => '2025-01-19', 'status' => 'delivered', 'total_amount' => 1349.98],
+            ['id' => 1, 'customer_name' => 'John Doe', 'customer_email' => 'john@example.com', 'order_date' => '2024-01-15', 'status' => 'delivered', 'total_amount' => 2529.98, 'shipping_address' => '123 Main St, New York, NY', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'customer_name' => 'Jane Smith', 'customer_email' => 'jane@example.com', 'order_date' => '2024-01-16', 'status' => 'shipped', 'total_amount' => 999.99, 'shipping_address' => '456 Oak Ave, Los Angeles, CA', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 3, 'customer_name' => 'Bob Johnson', 'customer_email' => 'bob@example.com', 'order_date' => '2024-01-17', 'status' => 'processing', 'total_amount' => 89.98, 'shipping_address' => '789 Pine Rd, Chicago, IL', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 4, 'customer_name' => 'Alice Brown', 'customer_email' => 'alice@example.com', 'order_date' => '2024-01-18', 'status' => 'pending', 'total_amount' => 172.97, 'shipping_address' => '321 Elm St, Houston, TX', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 5, 'customer_name' => 'Charlie Wilson', 'customer_email' => 'charlie@example.com', 'order_date' => '2024-01-19', 'status' => 'delivered', 'total_amount' => 1379.98, 'shipping_address' => '654 Maple Dr, Phoenix, AZ', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 6, 'customer_name' => 'Diana Lee', 'customer_email' => 'diana@example.com', 'order_date' => '2024-01-20', 'status' => 'cancelled', 'total_amount' => 59.99, 'shipping_address' => '987 Cedar Ln, Philadelphia, PA', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 7, 'customer_name' => 'Eve Davis', 'customer_email' => 'eve@example.com', 'order_date' => '2024-01-21', 'status' => 'shipped', 'total_amount' => 379.98, 'shipping_address' => '147 Birch Ave, San Antonio, TX', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 8, 'customer_name' => 'Frank Miller', 'customer_email' => 'frank@example.com', 'order_date' => '2024-01-22', 'status' => 'processing', 'total_amount' => 52.98, 'shipping_address' => '258 Willow St, San Diego, CA', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 9, 'customer_name' => 'Grace Taylor', 'customer_email' => 'grace@example.com', 'order_date' => '2024-01-23', 'status' => 'delivered', 'total_amount' => 2499.99, 'shipping_address' => '369 Spruce Rd, Dallas, TX', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 10, 'customer_name' => 'Henry Chen', 'customer_email' => 'henry@example.com', 'order_date' => '2024-01-24', 'status' => 'pending', 'total_amount' => 139.98, 'shipping_address' => '741 Poplar Ave, San Jose, CA', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        // Insert order items
+        // Insert order items - matching 01-schema.sql exactly
         DB::table('order_items')->insert([
-            ['order_id' => 1, 'product_id' => 1, 'quantity' => 1, 'unit_price' => 999.99, 'total_price' => 999.99],
-            ['order_id' => 1, 'product_id' => 5, 'quantity' => 1, 'unit_price' => 29.99, 'total_price' => 29.99],
-            ['order_id' => 2, 'product_id' => 3, 'quantity' => 1, 'unit_price' => 2499.99, 'total_price' => 2499.99],
-            ['order_id' => 3, 'product_id' => 6, 'quantity' => 1, 'unit_price' => 79.99, 'total_price' => 79.99],
-            ['order_id' => 3, 'product_id' => 5, 'quantity' => 1, 'unit_price' => 29.99, 'total_price' => 29.99],
-            ['order_id' => 4, 'product_id' => 2, 'quantity' => 1, 'unit_price' => 899.99, 'total_price' => 899.99],
-            ['order_id' => 5, 'product_id' => 4, 'quantity' => 1, 'unit_price' => 1299.99, 'total_price' => 1299.99],
-            ['order_id' => 5, 'product_id' => 7, 'quantity' => 1, 'unit_price' => 49.99, 'total_price' => 49.99],
-        ]);
-
-        // Insert sample questions
-        DB::table('questions')->insert([
-            [
-                'title' => 'Basic SELECT Query',
-                'description' => 'Write a query to retrieve all products.',
-                'instructions' => 'Use a SELECT statement to get all columns from the products table.',
-                'expected_sql' => 'SELECT * FROM products;',
-                'expected_result' => '8 rows containing all product information',
-                'difficulty' => 'easy',
-                'category' => 'Basic Queries',
-                'points' => 5,
-                'hint' => 'Use SELECT * FROM table_name to get all columns',
-                'hint_penalty' => 1
-            ],
-            [
-                'title' => 'Product Count by Category',
-                'description' => 'Count how many products are in each category.',
-                'instructions' => 'Write a query that shows category names and the count of products in each category.',
-                'expected_sql' => 'SELECT c.name, COUNT(p.id) as product_count FROM categories c LEFT JOIN products p ON c.id = p.category_id GROUP BY c.id, c.name;',
-                'expected_result' => 'Category names with their product counts',
-                'difficulty' => 'medium',
-                'category' => 'Aggregation',
-                'points' => 10,
-                'hint' => 'Use JOIN to connect categories and products, then GROUP BY and COUNT',
-                'hint_penalty' => 2
-            ],
-            [
-                'title' => 'Top Customers by Order Value',
-                'description' => 'Find customers with the highest total order amounts.',
-                'instructions' => 'Write a query to show customer names and their total order amounts, ordered by total amount descending.',
-                'expected_sql' => 'SELECT customer_name, SUM(total_amount) as total_orders FROM orders GROUP BY customer_name ORDER BY total_orders DESC;',
-                'expected_result' => 'Customers ordered by their total purchase amounts',
-                'difficulty' => 'medium',
-                'category' => 'Aggregation',
-                'points' => 15,
-                'hint' => 'Use GROUP BY customer and SUM total_amount, then ORDER BY',
-                'hint_penalty' => 3
-            ]
+            ['order_id' => 1, 'product_id' => 1, 'quantity' => 1, 'unit_price' => 2499.99, 'total_price' => 2499.99, 'created_at' => now()],
+            ['order_id' => 1, 'product_id' => 5, 'quantity' => 1, 'unit_price' => 29.99, 'total_price' => 29.99, 'created_at' => now()],
+            ['order_id' => 2, 'product_id' => 3, 'quantity' => 1, 'unit_price' => 999.99, 'total_price' => 999.99, 'created_at' => now()],
+            ['order_id' => 3, 'product_id' => 5, 'quantity' => 3, 'unit_price' => 29.99, 'total_price' => 89.97, 'created_at' => now()],
+            ['order_id' => 4, 'product_id' => 7, 'quantity' => 3, 'unit_price' => 39.99, 'total_price' => 119.97, 'created_at' => now()],
+            ['order_id' => 4, 'product_id' => 8, 'quantity' => 4, 'unit_price' => 12.99, 'total_price' => 51.96, 'created_at' => now()],
+            ['order_id' => 5, 'product_id' => 2, 'quantity' => 1, 'unit_price' => 1299.99, 'total_price' => 1299.99, 'created_at' => now()],
+            ['order_id' => 5, 'product_id' => 9, 'quantity' => 1, 'unit_price' => 79.99, 'total_price' => 79.99, 'created_at' => now()],
+            ['order_id' => 7, 'product_id' => 10, 'quantity' => 1, 'unit_price' => 299.99, 'total_price' => 299.99, 'created_at' => now()],
+            ['order_id' => 7, 'product_id' => 9, 'quantity' => 1, 'unit_price' => 79.99, 'total_price' => 79.99, 'created_at' => now()],
+            ['order_id' => 8, 'product_id' => 8, 'quantity' => 2, 'unit_price' => 12.99, 'total_price' => 25.98, 'created_at' => now()],
+            ['order_id' => 8, 'product_id' => 7, 'quantity' => 1, 'unit_price' => 39.99, 'total_price' => 39.99, 'created_at' => now()],
+            ['order_id' => 9, 'product_id' => 1, 'quantity' => 1, 'unit_price' => 2499.99, 'total_price' => 2499.99, 'created_at' => now()],
+            ['order_id' => 10, 'product_id' => 4, 'quantity' => 1, 'unit_price' => 899.99, 'total_price' => 899.99, 'created_at' => now()],
         ]);
     }
 }
